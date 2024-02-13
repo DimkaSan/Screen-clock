@@ -1,0 +1,54 @@
+import pygame
+import sys
+import time
+from datetime import datetime
+
+# Инициализация Pygame
+pygame.init()
+
+# Размеры экрана
+screen_width, screen_height = 800, 600
+
+# Цвета
+white = (255, 255, 255)
+black = (0, 0, 0)
+
+# Инициализация экрана
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Бегущие часы")
+
+# Шрифт для цифр
+font = pygame.font.SysFont(None, 48)
+
+def get_current_time():
+    return datetime.now().strftime("%H:%M:%S")
+
+def draw_clock(x, y):
+    current_time = get_current_time()
+    text = font.render(current_time, True, (255, 0, 0))
+    screen.blit(text, (x, y))
+
+def run_clock():
+    clock_x, clock_y = 20, 20
+    clock_speed = 5
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        screen.fill(white)
+
+        draw_clock(clock_x, clock_y)
+
+        pygame.display.flip()
+        pygame.time.Clock().tick(clock_speed)
+
+        clock_x += 2  # Измените этот параметр для настройки скорости часов
+
+        if clock_x > screen_width:
+            clock_x = -200  # Чтобы часы появлялись снова слева
+
+if __name__ == "__main__":
+    run_clock()
